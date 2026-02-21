@@ -39,7 +39,7 @@ export async function createOrder(userId: string, input: CreateOrderInput) {
       const error = new Error(`Stock insuficiente para ${product.name}`) as Error & {
         statusCode: number;
       };
-      error.statusCode: 400;
+      error.statusCode = 400;
       throw error;
     }
     const itemSubtotal = Number(product.price) * item.quantity;

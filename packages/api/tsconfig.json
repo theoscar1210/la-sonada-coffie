@@ -5,7 +5,10 @@
     "rootDir": "./src",
     "lib": ["ES2022"],
     "module": "NodeNext",
-    "moduleResolution": "NodeNext"
+    "moduleResolution": "NodeNext",
+    "paths": {
+      "@la-sonada/database": ["../database/src/index.ts"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
