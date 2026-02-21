@@ -4,6 +4,7 @@
  */
 
 import { prisma } from '@la-sonada/database';
+import type { Prisma } from '@la-sonada/database';
 import type { CreateOrderInput, UpdateOrderStatusInput } from '../schemas/order.schema.js';
 
 const SHIPPING_COST = 8000; // COP
@@ -14,6 +15,9 @@ async function generateOrderNumber(): Promise<string> {
   const count = await prisma.order.count();
   return `LSC-${String(count + 1).padStart(4, '0')}`;
 }
+
+/** Tipo de los items que retorna prisma.product.findMany */
+type ProductRow = Awaited<ReturnType<typeof prisma.product.findMany>>[number];
 
 export async function createOrder(userId: string, input: CreateOrderInput) {
   // Cargar productos y verificar stock
@@ -33,7 +37,7 @@ export async function createOrder(userId: string, input: CreateOrderInput) {
   // Verificar stock y calcular subtotal
   let subtotal = 0;
   const orderItems = input.items.map((item) => {
-    const product = products.find((p) => p.id === item.productId);
+    const product = products.find((p: ProductRow) => p.id === item.productId);
     if (!product) throw new Error('Producto no encontrado');
     if (product.stock < item.quantity) {
       const error = new Error(`Stock insuficiente para ${product.name}`) as Error & {
@@ -44,7 +48,13 @@ export async function createOrder(userId: string, input: CreateOrderInput) {
     }
     const itemSubtotal = Number(product.price) * item.quantity;
     subtotal += itemSubtotal;
-    return { productId: item.productId, quantity: item.quantity, grind: item.grind, unitPrice: Number(product.price), subtotal: itemSubtotal };
+    return {
+      productId: item.productId,
+      quantity: item.quantity,
+      grind: item.grind,
+      unitPrice: Number(product.price),
+      subtotal: itemSubtotal,
+    };
   });
 
   const shippingCost = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
@@ -52,7 +62,16 @@ export async function createOrder(userId: string, input: CreateOrderInput) {
   const orderNumber = await generateOrderNumber();
 
   // Resolver dirección de envío
-  let shippingData: { shippingName: string; shippingStreet: string; shippingCity: string; shippingState: string; shippingCountry: string; shippingZip: string; addressId?: string };
+  type ShippingData = {
+    shippingName: string;
+    shippingStreet: string;
+    shippingCity: string;
+    shippingState: string;
+    shippingCountry: string;
+    shippingZip: string;
+    addressId?: string;
+  };
+  let shippingData: ShippingData;
 
   if (input.addressId) {
     const address = await prisma.address.findFirst({
@@ -89,8 +108,11 @@ export async function createOrder(userId: string, input: CreateOrderInput) {
     throw error;
   }
 
+  // Tipo del item de orden para el map dentro de la transacción
+  type OrderItemRow = (typeof orderItems)[number];
+
   // Crear orden en transacción
-  const order = await prisma.$transaction(async (tx) => {
+  const order = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
     const newOrder = await tx.order.create({
       data: {
         orderNumber,
@@ -111,7 +133,7 @@ export async function createOrder(userId: string, input: CreateOrderInput) {
 
     // Decrementar stock
     await Promise.all(
-      orderItems.map((item) =>
+      orderItems.map((item: OrderItemRow) =>
         tx.product.update({
           where: { id: item.productId },
           data: { stock: { decrement: item.quantity } },
@@ -150,7 +172,9 @@ export async function getOrderById(id: string, userId: string, role: string) {
     where,
     include: {
       user: { select: { id: true, email: true, name: true } },
-      items: { include: { product: { select: { id: true, name: true, images: true, slug: true } } } },
+      items: {
+        include: { product: { select: { id: true, name: true, images: true, slug: true } } },
+      },
     },
   });
 
