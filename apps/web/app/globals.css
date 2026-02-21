@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-coffee-bg: #fdf8f3;
+    --color-coffee-dark: #1a0a04;
+    --color-coffee-accent: #c97e2f;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-coffee-50 text-charcoal-900 font-sans antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-serif;
+  }
+
+  ::selection {
+    @apply bg-coffee-200 text-coffee-900;
+  }
+}
+
+@layer components {
+  /* Botones */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-coffee-700 text-cream-100 font-sans font-medium rounded-full transition-all duration-300 hover:bg-coffee-800 hover:shadow-lg hover:shadow-coffee-900/20 active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 border border-coffee-300 text-coffee-700 font-sans font-medium rounded-full transition-all duration-300 hover:bg-coffee-100 hover:border-coffee-400 active:scale-95;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 text-coffee-700 font-medium transition-colors duration-200 hover:text-coffee-900 hover:bg-coffee-100 rounded-lg;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-white rounded-2xl shadow-sm border border-coffee-100 overflow-hidden;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-xl hover:shadow-coffee-900/10 hover:-translate-y-1;
+  }
+
+  /* Badge de tostión */
+  .badge-light {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700;
+  }
+  .badge-medium-light {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-700;
+  }
+  .badge-medium {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-coffee-200 text-coffee-800;
+  }
+  .badge-medium-dark {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-coffee-300 text-coffee-900;
+  }
+  .badge-dark {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-charcoal-800 text-cream-100;
+  }
+
+  /* Sección hero */
+  .hero-section {
+    @apply relative min-h-screen flex items-center justify-center bg-hero-gradient overflow-hidden;
+  }
+
+  /* Input */
+  .input {
+    @apply w-full px-4 py-3 border border-coffee-200 rounded-xl bg-white text-charcoal-900 placeholder:text-coffee-400 focus:outline-none focus:ring-2 focus:ring-coffee-400 focus:border-transparent transition-all duration-200;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Overlay oscuro sobre imágenes */
+  .overlay-dark::after {
+    content: '';
+    @apply absolute inset-0 bg-charcoal-950/50;
+  }
+}
