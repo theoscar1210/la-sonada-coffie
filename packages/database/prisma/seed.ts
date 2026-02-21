@@ -4,12 +4,12 @@
  */
 
 import { PrismaClient, RoastLevel, Role } from '@prisma/client';
-import { hash } from 'crypto';
+import { hashSync } from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
 function hashPassword(password: string): string {
-  return hash('sha256', password);
+  return hashSync(password, 12);
 }
 
 async function main() {

@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: la-sonada-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: lasonada
+      POSTGRES_PASSWORD: lasonada123
+      POSTGRES_DB: la_sonada_coffie
+    ports:
+      - '5432:5432'
+    volumes:
+      - la_sonada_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U lasonada -d la_sonada_coffie']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  la_sonada_pgdata:
