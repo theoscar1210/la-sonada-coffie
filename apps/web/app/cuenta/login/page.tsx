@@ -47,13 +47,13 @@ export default function LoginPage() {
     <div className="min-h-screen bg-coffee-50 pt-20 flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="font-serif text-4xl font-bold text-charcoal-900 mb-2">
+          <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-charcoal-900 mb-2">
             Bienvenido de vuelta
           </h1>
           <p className="text-coffee-500">Inicia sesión en tu cuenta</p>
         </div>
 
-        <div className="card p-8">
+        <div className="card p-5 sm:p-8">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div>
               <label className="block text-sm font-medium text-charcoal-700 mb-1.5">

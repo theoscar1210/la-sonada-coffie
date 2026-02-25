@@ -24,9 +24,9 @@ export function Footer() {
     <footer className="bg-charcoal-950 text-cream-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top */}
-        <div className="py-16 grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           {/* Brand */}
-          <div className="col-span-2 md:col-span-1">
+          <div className="sm:col-span-2 md:col-span-1">
             <div className="mb-4">
               <p className="font-serif text-2xl font-bold text-cream-100">LA SOÑADA</p>
               <p className="font-sans text-xs tracking-[0.4em] text-coffee-400 uppercase">COFFIE</p>

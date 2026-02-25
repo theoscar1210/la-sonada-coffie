@@ -37,7 +37,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: 'easeOut' }}
-          className="font-serif text-6xl md:text-8xl font-bold text-cream-100 leading-none mb-6"
+          className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-cream-100 leading-none mb-6"
         >
           La experiencia
           <br />
@@ -51,7 +51,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.25 }}
-          className="text-coffee-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10"
+          className="text-coffee-400 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-10 px-2"
         >
           Seleccionamos los mejores granos de origen único, los tostamos con precisión artesanal
           y los entregamos frescos directo a tu puerta.

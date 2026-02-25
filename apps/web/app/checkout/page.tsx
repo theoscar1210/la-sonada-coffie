@@ -61,10 +61,10 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-coffee-50 pt-20">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 className="font-serif text-4xl font-bold text-charcoal-900 mb-10">Checkout</h1>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-charcoal-900 mb-6 md:mb-10">Checkout</h1>
 
-        <div className="grid lg:grid-cols-5 gap-8 items-start">
+        <div className="grid lg:grid-cols-5 gap-6 md:gap-8 items-start">
           {/* Formulario — 3/5 */}
           <div className="lg:col-span-3">
             <Elements
@@ -87,7 +87,7 @@ export default function CheckoutPage() {
 
           {/* Resumen — 2/5 */}
           <div className="lg:col-span-2">
-            <div className="card p-6 sticky top-28">
+            <div className="card p-4 sm:p-6 sticky top-24 sm:top-28">
               <h2 className="font-serif text-xl font-semibold mb-5">Tu pedido</h2>
 
               <div className="space-y-3 mb-5">

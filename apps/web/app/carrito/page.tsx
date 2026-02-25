@@ -38,10 +38,10 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen bg-coffee-50 pt-20">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 className="font-serif text-4xl font-bold text-charcoal-900 mb-10">Tu carrito</h1>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-charcoal-900 mb-6 md:mb-10">Tu carrito</h1>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-6 md:gap-8">
           {/* Lista items */}
           <div className="lg:col-span-2 space-y-4">
             {items.map((item) => {
@@ -56,9 +56,9 @@ export default function CartPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, x: -100 }}
-                  className="card p-6 flex gap-6"
+                  className="card p-4 sm:p-6 flex gap-4 sm:gap-6"
                 >
-                  <div className="relative w-28 h-28 rounded-xl overflow-hidden flex-shrink-0 bg-coffee-100">
+                  <div className="relative w-20 h-20 sm:w-28 sm:h-28 rounded-xl overflow-hidden flex-shrink-0 bg-coffee-100">
                     <Image src={img} alt={item.product.name} fill className="object-cover" />
                   </div>
 
@@ -67,7 +67,7 @@ export default function CartPage() {
                       <div>
                         <Link
                           href={`/productos/${item.product.slug}`}
-                          className="font-serif text-lg font-semibold text-charcoal-900 hover:text-coffee-700 transition-colors"
+                          className="font-serif text-base sm:text-lg font-semibold text-charcoal-900 hover:text-coffee-700 transition-colors"
                         >
                           {item.product.name}
                         </Link>
@@ -119,7 +119,7 @@ export default function CartPage() {
 
           {/* Resumen */}
           <div className="lg:col-span-1">
-            <div className="card p-6 sticky top-28">
+            <div className="card p-4 sm:p-6 sticky top-24 sm:top-28">
               <h2 className="font-serif text-xl font-semibold text-charcoal-900 mb-6">
                 Resumen de orden
               </h2>
