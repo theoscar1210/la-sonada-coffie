@@ -70,7 +70,7 @@
 
   /* Sección hero */
   .hero-section {
-    @apply relative min-h-screen flex items-center justify-center bg-hero-gradient overflow-hidden;
+    @apply relative min-h-screen flex items-center justify-center bg-hero-gradient overflow-hidden pt-20;
   }
 
   /* Input */
