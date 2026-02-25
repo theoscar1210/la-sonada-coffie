@@ -7,27 +7,37 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
-  title: 'Nuestro Proceso',
-  description: 'Descubre cómo llevamos el café desde la finca hasta tu taza. Del origen, pasando por el procesado y la tostión artesanal.',
+  title: 'Nuestro Proceso — LA SOÑADA COFFIE',
+  description:
+    'Del Líbano, Tolima a tu taza. Conoce cómo seleccionamos, procesamos y tostamos cada grano con amor artesanal.',
+};
+
+const IMG = {
+  hero: 'https://res.cloudinary.com/dsbzuhyfu/image/upload/v1772031886/SaveClip.App_529131866_17958666815969366_870099234742798010_n_qjkkek.webp',
+  historia: 'https://res.cloudinary.com/dsbzuhyfu/image/upload/v1772031891/SaveClip.App_554401032_17947154325044463_9108692877301623870_n_fmee9x.jpg',
+  seleccion: 'https://res.cloudinary.com/dsbzuhyfu/image/upload/v1772031888/SaveClip.App_529477147_17941794516044463_6672011794010563298_n_hthrjs.jpg',
+  procesado: 'https://res.cloudinary.com/dsbzuhyfu/image/upload/v1772031883/SaveClip.App_528667901_17941794480044463_7749262412641503883_n_uwpplo.jpg',
+  tostion: 'https://res.cloudinary.com/dsbzuhyfu/image/upload/v1772031847/SaveClip.App_621986866_18066107045241922_897931816791468786_n_d2uwp7.jpg',
+  empaque: 'https://res.cloudinary.com/dsbzuhyfu/image/upload/v1772031839/SaveClip.App_624247203_18096365096489402_2997006078983668707_n_jlx4xy.webp',
 };
 
 const timeline = [
   {
     id: 'historia',
-    phase: '2019',
-    title: 'El origen de LA SOÑADA',
+    phase: 'Nuestro origen',
+    title: 'Nació en el Líbano, Tolima',
     content:
-      'Todo comenzó con un viaje a Huila, Colombia. El fundador, apasionado por el café, decidió conectar directamente a los productores con los amantes del café premium en las ciudades. La promesa era simple: café honesto, trazable y delicioso.',
-    image: '/images/proceso/historia.jpg',
+      'Todo comenzó en las montañas del Líbano, Tolima, en el corazón de la cordillera Central de Colombia. Rodeados de cafetales que llevan décadas produciendo granos excepcionales, nació LA SOÑADA COFFIE con una promesa simple: llevar el café de estas tierras privilegiadas directamente a quienes lo saben apreciar. Café honesto, trazable y delicioso, de la montaña a tu taza.',
+    image: IMG.historia,
     align: 'right',
   },
   {
     id: 'seleccion',
     phase: 'Paso 01',
-    title: 'Selección en origen',
+    title: 'Selección en finca',
     content:
-      'Visitamos cada finca personalmente. Evaluamos el estado de las plantas, las prácticas de cultivo y el potencial del lote. Solo trabajamos con caficultores que comparten nuestra filosofía de calidad y sostenibilidad. Cada lote es evaluado por nuestro Q-Grader certificado.',
-    image: '/images/proceso/seleccion.jpg',
+      'Trabajamos directamente con caficultores del Líbano, Tolima. Visitamos cada finca, evaluamos el estado de las plantas, las prácticas de cultivo y el potencial del lote. Solo trabajamos con productores que comparten nuestra filosofía de calidad y cuidado del territorio. Cada lote es evaluado para garantizar que lo que llega a tu taza sea lo mejor de la cosecha.',
+    image: IMG.seleccion,
     align: 'left',
   },
   {
@@ -35,8 +45,8 @@ const timeline = [
     phase: 'Paso 02',
     title: 'Procesado y fermentación',
     content:
-      'El método de procesado define el perfil de sabor. Trabajamos con cafés lavados para mayor claridad y acidez, naturales para dulzor y cuerpo, honey process para el equilibrio perfecto, y fermentaciones anaeróbicas para perfiles exóticos y complejos.',
-    image: '/images/proceso/procesado.jpg',
+      'El método de procesado define el perfil de sabor. Trabajamos con cafés lavados para mayor claridad y acidez brillante, naturales para dulzor y cuerpo, honey process para el equilibrio perfecto, y fermentaciones anaeróbicas para perfiles exóticos y complejos que sorprenden hasta al paladar más exigente.',
+    image: IMG.procesado,
     align: 'right',
   },
   {
@@ -44,8 +54,8 @@ const timeline = [
     phase: 'Paso 03',
     title: 'Tostión artesanal',
     content:
-      'Cada café recibe su propio perfil de tostión, desarrollado en nuestra tostadora de 10kg. Tostamos en lotes pequeños para garantizar consistencia y controlamos cada variable: temperatura, tiempo, punto de crack y desarrollo. El objetivo siempre es resaltar lo mejor del grano.',
-    image: '/images/proceso/tostion.jpg',
+      'Cada café del Líbano recibe su propio perfil de tostión, desarrollado para resaltar las características únicas del terroir tolimense. Tostamos en lotes pequeños para garantizar consistencia y controlamos cada variable: temperatura, tiempo y desarrollo. El objetivo siempre es que en cada taza se sienta el origen.',
+    image: IMG.tostion,
     align: 'left',
   },
   {
@@ -53,8 +63,8 @@ const timeline = [
     phase: 'Paso 04',
     title: 'Fresco a tu puerta',
     content:
-      'Empacamos dentro de las 24 horas post-tostión. Usamos bolsas con válvula desgasificadora de un solo sentido que permite al café liberar CO₂ sin absorber oxígeno. Cada bolsa incluye la fecha de tostión, el lote y un QR con información completa de la finca.',
-    image: '/images/proceso/empaque.jpg',
+      'Empacamos dentro de las 24 horas post-tostión. Usamos bolsas con válvula desgasificadora de un solo sentido que permite al café liberar CO₂ sin absorber oxígeno. Cada bolsa incluye la fecha de tostión, el lote y la información completa de origen para que sepas exactamente de dónde viene tu café.',
+    image: IMG.empaque,
     align: 'right',
   },
 ];
@@ -74,15 +84,16 @@ export default function ProcessPage() {
       <section className="relative h-[60vh] flex items-end bg-charcoal-950">
         <div className="absolute inset-0">
           <Image
-            src="/images/proceso/hero.jpg"
-            alt="Proceso del café"
+            src={IMG.hero}
+            alt="Proceso del café La Soñada — Líbano, Tolima"
             fill
             className="object-cover opacity-40"
+            priority
           />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
           <p className="text-coffee-400 text-sm uppercase tracking-widest mb-3 font-sans">
-            Del campo a tu taza
+            Líbano, Tolima · Del campo a tu taza
           </p>
           <h1 className="font-serif text-5xl md:text-7xl font-bold text-cream-100 leading-none">
             Nuestro proceso

@@ -20,21 +20,25 @@ export const metadata: Metadata = {
 };
 
 async function getFeaturedProducts(): Promise<Product[]> {
-  const res = await api.get<{ products: Product[]; pagination: unknown }>(
-    '/products?featured=true&limit=4',
-    { next: { revalidate: 3600 } },
-  );
-  return res.data?.products ?? [];
+  try {
+    const res = await api.get<{ products: Product[]; pagination: unknown }>(
+      '/products?featured=true&limit=4',
+      { next: { revalidate: 3600 } },
+    );
+    return res.data?.products ?? [];
+  } catch {
+    return [];
+  }
 }
 
 export default async function HomePage() {
   const featuredProducts = await getFeaturedProducts();
 
   const stats = [
-    { value: '15+', label: 'Orígenes de café' },
-    { value: '500+', label: 'Clientes felices' },
-    { value: '5', label: 'Años de experiencia' },
-    { value: '100%', label: 'Tostión artesanal' },
+    { value: '1', label: 'Origen: Líbano, Tolima' },
+    { value: '100%', label: 'Café colombiano' },
+    { value: '3+', label: 'Procesos artesanales' },
+    { value: '24h', label: 'Post-tostión a tu puerta' },
   ];
 
   const values = [
@@ -140,7 +144,7 @@ export default async function HomePage() {
       <section className="py-24 bg-coffee-900 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <Image
-            src="/images/coffee-beans-bg.jpg"
+            src="https://res.cloudinary.com/dsbzuhyfu/image/upload/v1772031841/SaveClip.App_630569795_17978709332969366_32657942601693164_n_lzes4x.jpg"
             alt=""
             fill
             className="object-cover"
