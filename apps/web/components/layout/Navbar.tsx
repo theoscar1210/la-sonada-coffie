@@ -2,11 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, Menu, X, User, ChevronDown } from 'lucide-react';
 import { useCartStore } from '@/lib/store/cart';
 import { useAuthStore } from '@/lib/store/auth';
 import { cn } from '@/lib/utils';
+
+const LOGO_URL =
+  'https://res.cloudinary.com/dsbzuhyfu/image/upload/v1772031839/SaveClip.App_623951363_18011151110666596_752443976468967087_n_jikvhr.jpg';
 
 const navLinks = [
   { label: 'Café', href: '/productos' },
@@ -39,13 +43,25 @@ export function Navbar() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex flex-col leading-none group">
-            <span className="font-serif text-2xl font-bold text-cream-100 tracking-wide group-hover:text-coffee-300 transition-colors">
-              LA SOÑADA
-            </span>
-            <span className="font-sans text-xs tracking-[0.4em] text-coffee-400 uppercase">
-              COFFIE
-            </span>
+          <Link href="/" className="flex items-center group">
+            <div className="relative w-14 h-14 rounded-full overflow-hidden ring-2 ring-coffee-700 group-hover:ring-coffee-400 transition-all duration-300 shadow-lg">
+              <Image
+                src={LOGO_URL}
+                alt="LA SOÑADA COFFIE"
+                fill
+                className="object-cover object-center scale-110"
+                sizes="56px"
+                priority
+              />
+            </div>
+            <div className="ml-3 flex flex-col leading-none">
+              <span className="font-serif text-lg font-bold text-cream-100 tracking-wide group-hover:text-coffee-300 transition-colors">
+                LA SOÑADA
+              </span>
+              <span className="font-sans text-[10px] tracking-[0.4em] text-coffee-400 uppercase">
+                COFFIE
+              </span>
+            </div>
           </Link>
 
           {/* Nav links — desktop */}
