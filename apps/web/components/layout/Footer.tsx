@@ -10,7 +10,7 @@ const footerLinks = {
   Nosotros: [
     { label: 'Nuestro proceso', href: '/proceso' },
     { label: 'Blog', href: '/blog' },
-    { label: 'Historia de la marca', href: '/proceso#historia' },
+    { label: 'Historia de la marca', href: '/historia' },
   ],
   Ayuda: [
     { label: 'Preguntas frecuentes', href: '/faq' },
