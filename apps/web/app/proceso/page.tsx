@@ -7,9 +7,35 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
-  title: 'Nuestro Proceso — LA SOÑADA COFFIE',
+  title: 'Nuestro Proceso — Del Líbano, Tolima a tu taza',
   description:
-    'Del Líbano, Tolima a tu taza. Conoce cómo seleccionamos, procesamos y tostamos cada grano con amor artesanal.',
+    'Conoce cómo seleccionamos, procesamos y tostamos cada grano en el Líbano, Tolima. Selección en finca, fermentación, tostión artesanal y empaque con válvula desgasificadora.',
+  keywords: [
+    'proceso café especialidad',
+    'tostión artesanal Tolima',
+    'fermentación anaeróbica café',
+    'honey process Colombia',
+    'café lavado Líbano',
+    'caficultura Tolima',
+  ],
+  alternates: { canonical: '/proceso' },
+  openGraph: {
+    title: 'Nuestro Proceso — LA SOÑADA COFFIE',
+    description: 'Del Líbano, Tolima a tu taza. Selección, procesado, tostión artesanal.',
+    url: '/proceso',
+    images: [{
+      url: 'https://res.cloudinary.com/dsbzuhyfu/image/upload/c_fill,w_1200,h_630/v1772031886/SaveClip.App_529131866_17958666815969366_870099234742798010_n_qjkkek.webp',
+      width: 1200,
+      height: 630,
+      alt: 'Proceso del café — Líbano, Tolima',
+    }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Nuestro Proceso — LA SOÑADA COFFIE',
+    description: 'Del Líbano, Tolima a tu taza. Tostión artesanal en pequeños lotes.',
+    images: ['https://res.cloudinary.com/dsbzuhyfu/image/upload/c_fill,w_1200,h_630/v1772031886/SaveClip.App_529131866_17958666815969366_870099234742798010_n_qjkkek.webp'],
+  },
 };
 
 const IMG = {

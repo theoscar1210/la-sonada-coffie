@@ -10,7 +10,32 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Historia de la marca — LA SOÑADA COFFIE',
   description:
-    'La historia de LA SOÑADA COFFIE: cómo nació una marca de café de especialidad en el Líbano, Tolima, Colombia, con amor por el origen y el sabor.',
+    'Conoce la historia de LA SOÑADA COFFIE: cómo nació una marca de café de especialidad en el Líbano, Tolima, Colombia, con amor por el origen, el caficultor y el sabor.',
+  keywords: [
+    'historia La Soñada Coffie',
+    'marca café colombiana',
+    'café especialidad Líbano Tolima',
+    'emprendimiento cafetero Colombia',
+    'origen café colombiano',
+  ],
+  alternates: { canonical: '/historia' },
+  openGraph: {
+    title: 'Historia de la marca — LA SOÑADA COFFIE',
+    description: 'Cómo nació LA SOÑADA COFFIE en el Líbano, Tolima. Una historia de café, territorio y sueños.',
+    url: '/historia',
+    images: [{
+      url: 'https://res.cloudinary.com/dsbzuhyfu/image/upload/c_fill,w_1200,h_630/v1772031891/SaveClip.App_554401032_17947154325044463_9108692877301623870_n_fmee9x.jpg',
+      width: 1200,
+      height: 630,
+      alt: 'Historia de LA SOÑADA COFFIE — Líbano, Tolima',
+    }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Historia de la marca — LA SOÑADA COFFIE',
+    description: 'Cómo nació LA SOÑADA COFFIE en el Líbano, Tolima.',
+    images: ['https://res.cloudinary.com/dsbzuhyfu/image/upload/c_fill,w_1200,h_630/v1772031891/SaveClip.App_554401032_17947154325044463_9108692877301623870_n_fmee9x.jpg'],
+  },
 };
 
 const IMG = {

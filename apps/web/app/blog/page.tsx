@@ -8,9 +8,36 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Blog — LA SOÑADA COFFIE',
+  title: 'Blog — Historias del café del Líbano, Tolima',
   description:
-    'Historias del café del Líbano, Tolima. Proceso, orígenes, técnicas de preparación y la cultura cafetera de nuestra región.',
+    'Artículos sobre café de especialidad del Líbano, Tolima: fermentación anaeróbica, honey process, origen, tostión artesanal y técnicas de preparación.',
+  keywords: [
+    'blog café especialidad',
+    'Líbano Tolima café',
+    'fermentación anaeróbica',
+    'honey process Colombia',
+    'tostión artesanal',
+    'cultura cafetera Tolima',
+  ],
+  alternates: { canonical: '/blog' },
+  openGraph: {
+    title: 'Blog — LA SOÑADA COFFIE',
+    description: 'Historias del café del Líbano, Tolima. Proceso, orígenes y cultura cafetera.',
+    url: '/blog',
+    type: 'website',
+    images: [{
+      url: 'https://res.cloudinary.com/dsbzuhyfu/image/upload/c_fill,w_1200,h_630/v1772031891/SaveClip.App_554401032_17947154325044463_9108692877301623870_n_fmee9x.jpg',
+      width: 1200,
+      height: 630,
+      alt: 'Blog LA SOÑADA COFFIE — Líbano, Tolima',
+    }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Blog — LA SOÑADA COFFIE',
+    description: 'Historias del café del Líbano, Tolima.',
+    images: ['https://res.cloudinary.com/dsbzuhyfu/image/upload/c_fill,w_1200,h_630/v1772031891/SaveClip.App_554401032_17947154325044463_9108692877301623870_n_fmee9x.jpg'],
+  },
 };
 
 const VIDEO_URL =

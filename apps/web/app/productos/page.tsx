@@ -11,8 +11,35 @@ import { FilterSidebar } from '@/components/ui/FilterSidebar';
 import type { Product, Category } from '@/types';
 
 export const metadata: Metadata = {
-  title: 'Catálogo',
-  description: 'Explora nuestra selección de cafés de especialidad. Filtra por origen, tostión y precio.',
+  title: 'Catálogo de cafés — Especialidad del Líbano, Tolima',
+  description:
+    'Compra café de especialidad del Líbano, Tolima. Natural Anaeróbico, Honey Process, Washed, Blends y Kits de regalo. Tostión artesanal, envío a todo Colombia.',
+  keywords: [
+    'comprar café especialidad Colombia',
+    'café Líbano Tolima precio',
+    'café natural anaeróbico comprar',
+    'honey process Colombia tienda',
+    'café premium envío Colombia',
+    'kit café regalo Colombia',
+  ],
+  alternates: { canonical: '/productos' },
+  openGraph: {
+    title: 'Catálogo — LA SOÑADA COFFIE',
+    description: 'Cafés de especialidad del Líbano, Tolima. Tostión artesanal, envío a todo Colombia.',
+    url: '/productos',
+    images: [{
+      url: 'https://res.cloudinary.com/dsbzuhyfu/image/upload/c_fill,w_1200,h_630/v1772031847/SaveClip.App_621986866_18066107045241922_897931816791468786_n_d2uwp7.jpg',
+      width: 1200,
+      height: 630,
+      alt: 'Catálogo de cafés LA SOÑADA COFFIE',
+    }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Catálogo — LA SOÑADA COFFIE',
+    description: 'Cafés de especialidad del Líbano, Tolima. Envío a Colombia.',
+    images: ['https://res.cloudinary.com/dsbzuhyfu/image/upload/c_fill,w_1200,h_630/v1772031847/SaveClip.App_621986866_18066107045241922_897931816791468786_n_d2uwp7.jpg'],
+  },
 };
 
 interface PageProps {

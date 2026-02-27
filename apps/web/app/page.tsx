@@ -15,8 +15,35 @@ import { ProcessSection } from '@/components/sections/ProcessSection';
 import type { Product } from '@/types';
 
 export const metadata: Metadata = {
-  title: 'LA SOÑADA COFFIE — Café de Especialidad',
-  description: 'Descubre nuestra colección de cafés de especialidad. Granos de origen único, tostión artesanal.',
+  title: 'LA SOÑADA COFFIE — Café de Especialidad del Líbano, Tolima',
+  description:
+    'Descubre los cafés de especialidad del Líbano, Tolima. Natural Anaeróbico, Honey Process, Washed y Blends artesanales. Tostión en pequeños lotes, entrega directa a tu puerta.',
+  keywords: [
+    'café especialidad Líbano Tolima',
+    'café colombiano premium',
+    'café natural anaeróbico',
+    'honey process Colombia',
+    'café de origen',
+    'La Soñada Coffie',
+  ],
+  alternates: { canonical: '/' },
+  openGraph: {
+    title: 'LA SOÑADA COFFIE — Café de Especialidad del Líbano, Tolima',
+    description: 'Cafés de especialidad del Líbano, Tolima. Tostión artesanal, origen trazable, entrega directa.',
+    url: '/',
+    images: [{
+      url: 'https://res.cloudinary.com/dsbzuhyfu/image/upload/c_fill,w_1200,h_630/v1772031891/SaveClip.App_554401032_17947154325044463_9108692877301623870_n_fmee9x.jpg',
+      width: 1200,
+      height: 630,
+      alt: 'LA SOÑADA COFFIE — Café de especialidad del Líbano, Tolima',
+    }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'LA SOÑADA COFFIE — Café de Especialidad',
+    description: 'Cafés del Líbano, Tolima. Tostión artesanal y origen trazable.',
+    images: ['https://res.cloudinary.com/dsbzuhyfu/image/upload/c_fill,w_1200,h_630/v1772031891/SaveClip.App_554401032_17947154325044463_9108692877301623870_n_fmee9x.jpg'],
+  },
 };
 
 async function getFeaturedProducts(): Promise<Product[]> {
