@@ -14,6 +14,7 @@ import { ProductList, ProductEdit, ProductCreate } from './resources/Products';
 import { OrderList, OrderEdit } from './resources/Orders';
 import { UserList, UserShow } from './resources/Users';
 import { Dashboard } from './components/Dashboard';
+import { LoginPage } from './components/LoginPage';
 
 // Tema personalizado con colores de La Soñada
 const theme = {
@@ -53,7 +54,7 @@ export function App() {
       authProvider={authProvider}
       dashboard={Dashboard}
       theme={theme}
-      loginPage={undefined}
+      loginPage={LoginPage}
     >
       <Resource
         name="products"
