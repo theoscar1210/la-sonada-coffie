@@ -21,11 +21,13 @@ const navLinks = [
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { toggleCart, itemCount } = useCartStore();
   const { user, isAuthenticated } = useAuthStore();
   const count = itemCount();
 
   useEffect(() => {
+    setMounted(true);
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -105,19 +107,21 @@ export function Navbar() {
               aria-label={`Carrito (${count} items)`}
             >
               <ShoppingBag size={22} />
-              <AnimatePresence>
-                {count > 0 && (
-                  <motion.span
-                    key="badge"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    exit={{ scale: 0 }}
-                    className="absolute -top-1 -right-1 w-5 h-5 bg-coffee-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center"
-                  >
-                    {count > 99 ? '99+' : count}
-                  </motion.span>
-                )}
-              </AnimatePresence>
+              {mounted && (
+                <AnimatePresence>
+                  {count > 0 && (
+                    <motion.span
+                      key="badge"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0 }}
+                      className="absolute -top-1 -right-1 w-5 h-5 bg-coffee-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center"
+                    >
+                      {count > 99 ? '99+' : count}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              )}
             </button>
 
             {/* Hamburger — mobile */}

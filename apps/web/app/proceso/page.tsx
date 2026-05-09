@@ -7,16 +7,18 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
-  title: 'Nuestro Proceso — Del Líbano, Tolima a tu taza',
+  title: 'Nuestro Proceso — Natural, Honey y Lavado | Finca Los Pinos, Líbano, Tolima',
   description:
-    'Conoce cómo seleccionamos, procesamos y tostamos cada grano en el Líbano, Tolima. Selección en finca, fermentación, tostión artesanal y empaque con válvula desgasificadora.',
+    'Descubre los procesos Natural, Honey y Lavado de Finca Los Pinos a 1.600 msnm, Vereda La Marcada, Líbano, Tolima. Cada proceso define el perfil de sabor de nuestros cafés de especialidad.',
   keywords: [
-    'proceso café especialidad',
+    'proceso café natural Tolima',
+    'honey process Líbano Colombia',
+    'café lavado Finca Los Pinos',
     'tostión artesanal Tolima',
-    'fermentación anaeróbica café',
-    'honey process Colombia',
-    'café lavado Líbano',
-    'caficultura Tolima',
+    'proceso café especialidad Colombia',
+    'café 1600 msnm Líbano',
+    'Finca Los Pinos Vereda La Marcada',
+    'caficultura Líbano Tolima',
   ],
   alternates: { canonical: '/proceso' },
   openGraph: {
@@ -95,6 +97,66 @@ const timeline = [
   },
 ];
 
+const processDetails = [
+  {
+    key: 'natural',
+    name: 'Proceso Natural',
+    subtitle: 'Dried Natural',
+    accentColor: 'text-amber-400',
+    borderColor: 'border-amber-500/40',
+    dotColor: 'bg-amber-500',
+    description:
+      'El café cherry completo — con toda su pulpa y mucílago — se seca directamente al sol sobre camas africanas durante 20 a 30 días. Durante el secado, los azúcares de la fruta penetran el grano, generando notas intensas y un cuerpo pleno.',
+    steps: [
+      'Cosecha selectiva de cerezas rojas en su punto óptimo de madurez',
+      'Clasificación por densidad en agua (flote)',
+      'Secado en camas africanas con volteo constante cada 2 horas',
+      'Control de temperatura y humedad durante 20-30 días',
+      'Reposo en bodega hasta alcanzar 11% de humedad',
+    ],
+    cup: ['Frutal (mora, ciruela, maracuyá)', 'Vinoso y fermentado controlado', 'Cuerpo pleno y cremoso', 'Dulzor intenso y persistente'],
+    origin: 'Finca Los Pinos · 1.600 msnm · Vereda La Marcada',
+  },
+  {
+    key: 'honey',
+    name: 'Proceso Honey',
+    subtitle: 'Pulped Natural',
+    accentColor: 'text-coffee-400',
+    borderColor: 'border-coffee-500/40',
+    dotColor: 'bg-coffee-500',
+    description:
+      'Se retira mecánicamente la pulpa del cherry, pero se conserva el mucílago (miel) adherido al pergamino. El grano seca con esta capa viscosa que aporta dulzor y caramelización. Dependiendo del porcentaje de mucílago conservado se obtiene honey amarillo, rojo o negro.',
+    steps: [
+      'Cosecha selectiva y clasificación por densidad',
+      'Despulpado mecánico sin remoción del mucílago',
+      'Secado en camas africanas durante 15-25 días',
+      'Volteo frecuente para evitar fermentaciones no deseadas',
+      'Reposo y trilla para retirar el pergamino',
+    ],
+    cup: ['Caramelizado y dulce', 'Acidez suave y agradable', 'Cuerpo medio-alto', 'Notas de panela y fruta seca'],
+    origin: 'Finca Los Pinos · 1.600 msnm · Vereda La Marcada',
+  },
+  {
+    key: 'lavado',
+    name: 'Proceso Lavado',
+    subtitle: 'Washed / Fully Washed',
+    accentColor: 'text-pine-400',
+    borderColor: 'border-pine-600/40',
+    dotColor: 'bg-pine-600',
+    description:
+      'El café es completamente despulpado y fermentado en tanques de agua durante 24 a 48 horas para descomponer y retirar todo el mucílago. Tras el lavado final, el grano seca limpio. Este proceso revela con mayor fidelidad el terroir de Finca Los Pinos y la influencia de los 1.600 msnm.',
+    steps: [
+      'Cosecha selectiva y clasificación por densidad',
+      'Despulpado mecánico completo',
+      'Fermentación en tanques de agua por 24-48 horas',
+      'Lavado con agua limpia para retirar todo el mucílago',
+      'Secado en camas africanas durante 12-18 días',
+    ],
+    cup: ['Acidez brillante y limpia', 'Notas florales y cítricas', 'Cuerpo ligero a medio', 'Terroir de los 1.600 msnm'],
+    origin: 'Finca Los Pinos · 1.600 msnm · Vereda La Marcada',
+  },
+];
+
 const roastProfiles = [
   { level: 'Clara', temp: '196°C', color: 'bg-amber-300', desc: 'Acidez brillante, floral y frutal. Perfecta para métodos de filtrado.' },
   { level: 'Media-Clara', temp: '200°C', color: 'bg-amber-500', desc: 'Balance entre acidez y dulzor. Versátil para espresso y filtrado.' },
@@ -127,9 +189,81 @@ export default function ProcessPage() {
         </div>
       </section>
 
+      {/* Los 3 procesos */}
+      <section className="py-24 bg-coffee-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <p className="text-sm text-coffee-500 font-sans uppercase tracking-widest mb-3">
+              Finca Los Pinos · 1.600 msnm · Vereda La Marcada
+            </p>
+            <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal-900">
+              Los tres procesos
+            </h2>
+            <p className="mt-4 text-coffee-600 max-w-xl mx-auto text-base">
+              En La Soñada aplicamos tres métodos de beneficio sobre los granos de Finca Los Pinos.
+              Cada proceso da origen a un perfil de sabor único.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {processDetails.map((proc) => (
+              <div
+                key={proc.key}
+                id={proc.key}
+                className={`rounded-2xl border ${proc.borderColor} bg-white p-8 shadow-sm`}
+              >
+                <div className={`w-4 h-4 ${proc.dotColor} rounded-full mb-4`} />
+                <p className="text-xs font-sans text-coffee-400 uppercase tracking-widest mb-1">{proc.subtitle}</p>
+                <h3 className={`font-serif text-2xl font-bold mb-4 ${proc.accentColor}`}>
+                  {proc.name}
+                </h3>
+                <p className="text-coffee-600 text-sm leading-relaxed mb-6">
+                  {proc.description}
+                </p>
+
+                {/* Pasos */}
+                <p className="text-xs font-sans uppercase tracking-widest text-coffee-500 mb-3">Pasos</p>
+                <ol className="space-y-2 mb-6">
+                  {proc.steps.map((step, i) => (
+                    <li key={i} className="flex gap-3 text-sm text-coffee-600">
+                      <span className={`flex-shrink-0 w-5 h-5 rounded-full ${proc.dotColor} text-cream-100 text-xs flex items-center justify-center font-bold mt-0.5`}>
+                        {i + 1}
+                      </span>
+                      {step}
+                    </li>
+                  ))}
+                </ol>
+
+                {/* Notas de taza */}
+                <p className="text-xs font-sans uppercase tracking-widest text-coffee-500 mb-3">Notas en taza</p>
+                <div className="flex flex-wrap gap-2 mb-5">
+                  {proc.cup.map((note) => (
+                    <span key={note} className="text-xs px-2.5 py-1 rounded-full bg-coffee-50 border border-coffee-200 text-coffee-600">
+                      {note}
+                    </span>
+                  ))}
+                </div>
+
+                <p className="text-xs text-coffee-400 font-sans border-t border-coffee-100 pt-4 mt-2">
+                  {proc.origin}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Timeline */}
       <section className="py-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <p className="text-sm text-coffee-500 font-sans uppercase tracking-widest mb-3">
+              Del campo a tu taza
+            </p>
+            <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal-900">
+              El camino del grano
+            </h2>
+          </div>
           <div className="space-y-24">
             {timeline.map((item) => (
               <div

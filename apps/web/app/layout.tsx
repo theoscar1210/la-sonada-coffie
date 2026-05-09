@@ -48,19 +48,45 @@ export const metadata: Metadata = {
 
 const organizationJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
+  '@type': ['Organization', 'LocalBusiness'],
   name: 'LA SOÑADA COFFIE',
+  alternateName: 'La Soñada Specialty Coffee',
   url: SITE_URL,
   logo: 'https://res.cloudinary.com/dsbzuhyfu/image/upload/v1772031839/SaveClip.App_623951363_18011151110666596_752443976468967087_n_jikvhr.jpg',
-  description: 'Café de especialidad del Líbano, Tolima, Colombia. Tostión artesanal y origen trazable.',
+  image: OG_IMAGE,
+  description: 'Café de especialidad del Líbano, Tolima, Colombia. Origen: Finca Los Pinos, Vereda La Marcada, a 1.600 msnm. Procesos Natural, Honey y Lavado. Tostión artesanal en pequeños lotes.',
   address: {
     '@type': 'PostalAddress',
+    streetAddress: 'Vereda La Marcada',
     addressLocality: 'Líbano',
     addressRegion: 'Tolima',
     addressCountry: 'CO',
+    postalCode: '732530',
   },
-  contactPoint: { '@type': 'ContactPoint', email: 'hola@lasonada.co', contactType: 'customer service' },
-  sameAs: ['https://www.instagram.com/lasonadacoffie', 'https://www.facebook.com/lasonadacoffie'],
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: '4.9333',
+    longitude: '-75.0667',
+  },
+  telephone: '+573103881119',
+  contactPoint: [
+    { '@type': 'ContactPoint', telephone: '+573103881119', contactType: 'customer service', areaServed: 'CO' },
+    { '@type': 'ContactPoint', telephone: '+573134268824', contactType: 'sales', areaServed: 'CO' },
+    { '@type': 'ContactPoint', email: 'hola@lasonada.co', contactType: 'customer service' },
+  ],
+  sameAs: [
+    'https://www.instagram.com/lasonadacoffee',
+    'https://www.facebook.com/lasonadacoffee',
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Cafés de especialidad Finca Los Pinos',
+    itemListElement: [
+      { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Café Natural Finca Los Pinos', description: 'Proceso Natural. Origen: Finca Los Pinos, 1.600 msnm, Vereda La Marcada, Líbano, Tolima.' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Café Honey Finca Los Pinos', description: 'Proceso Honey. Origen: Finca Los Pinos, 1.600 msnm, Vereda La Marcada, Líbano, Tolima.' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Café Lavado Finca Los Pinos', description: 'Proceso Lavado. Origen: Finca Los Pinos, 1.600 msnm, Vereda La Marcada, Líbano, Tolima.' } },
+    ],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

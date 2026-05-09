@@ -13,8 +13,10 @@ export const metadata: Metadata = {
     'Conoce la historia de LA SOÑADA COFFIE: cómo nació una marca de café de especialidad en el Líbano, Tolima, Colombia, con amor por el origen, el caficultor y el sabor.',
   keywords: [
     'historia La Soñada Coffie',
-    'marca café colombiana',
+    'Finca Los Pinos Líbano Tolima',
     'café especialidad Líbano Tolima',
+    'Vereda La Marcada Líbano',
+    'café 1600 msnm Tolima',
     'emprendimiento cafetero Colombia',
     'origen café colombiano',
   ],
@@ -91,7 +93,7 @@ export default function HistoriaPage() {
         </div>
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20">
           <p className="text-coffee-400 text-xs sm:text-sm uppercase tracking-widest mb-3 font-sans">
-            Líbano, Tolima · Colombia
+            Finca Los Pinos · Vereda La Marcada · Líbano, Tolima · 1.600 msnm
           </p>
           <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-bold text-cream-100 leading-none mb-4">
             Historia<br />de la marca
@@ -115,8 +117,10 @@ export default function HistoriaPage() {
               </h2>
               <div className="space-y-4 text-coffee-600 leading-relaxed text-base sm:text-lg">
                 <p>
-                  En el Líbano, Tolima, a más de 2.000 metros sobre el nivel del mar, entre montañas verdes y el
-                  aroma permanente del café maduro, nació la idea que hoy es LA SOÑADA COFFIE.
+                  En la Vereda La Marcada, municipio del Líbano, Tolima, a 1.600 metros sobre el nivel del mar,
+                  entre montañas verdes y el aroma permanente del café maduro, nació la idea que hoy es LA SOÑADA COFFIE.
+                  Todo comienza en <strong className="text-charcoal-800">Finca Los Pinos</strong>, donde los granos
+                  crecen lentos, acumulando azúcares y complejidad.
                 </p>
                 <p>
                   No fue en una oficina ni en un laboratorio. Fue en medio de los cafetales, escuchando a los
@@ -124,8 +128,8 @@ export default function HistoriaPage() {
                   que nunca llegaba directamente al consumidor final.
                 </p>
                 <p>
-                  La pregunta era simple: ¿por qué el mejor café del Líbano se exporta como commodity cuando
-                  podría llegar como especialidad a quienes lo saben apreciar?
+                  La pregunta era simple: ¿por qué el mejor café de Finca Los Pinos se exporta como commodity cuando
+                  podría llegar como especialidad, con proceso Natural, Honey o Lavado, a quienes lo saben apreciar?
                 </p>
               </div>
             </div>
@@ -162,18 +166,19 @@ export default function HistoriaPage() {
               </h2>
               <div className="space-y-4 text-coffee-400 leading-relaxed text-base sm:text-lg">
                 <p>
-                  El Líbano es uno de los municipios cafeteros más antiguos de Colombia. Su posición en la
-                  cordillera Central, entre 1.500 y 2.200 msnm, crea condiciones únicas: temperaturas frescas,
-                  lluvias bien distribuidas y suelos volcánicos ricos en minerales.
+                  El Líbano es uno de los municipios cafeteros más emblemáticos de Colombia. En la Vereda La Marcada,
+                  Finca Los Pinos se sitúa exactamente a <strong className="text-coffee-300">1.600 msnm</strong> en la
+                  cordillera Central — una altitud ideal que garantiza temperaturas frescas, lluvias bien distribuidas
+                  y suelos ricos en minerales volcánicos.
                 </p>
                 <p>
-                  Aquí crece el café lento, acumulando azúcares y desarrollando la complejidad que
-                  lo convierte en especialidad. Los caficultores del Líbano llevan generaciones
-                  cultivando con el mismo amor y dedicación.
+                  A esa altura el café crece lento. El grano tarda más en madurar y acumula más azúcares,
+                  lo que se traduce en mayor complejidad en la taza. Los caficultores de Finca Los Pinos
+                  llevan generaciones cultivando con el mismo amor y dedicación.
                 </p>
                 <p>
-                  Nuestra marca no podría existir en otro lugar. El Líbano no es solo nuestro origen;
-                  es nuestra identidad.
+                  Nuestra marca no podría existir en otro lugar. Finca Los Pinos, Vereda La Marcada, Líbano, Tolima —
+                  no es solo nuestro origen; es nuestra identidad.
                 </p>
               </div>
             </div>

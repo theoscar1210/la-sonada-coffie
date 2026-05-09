@@ -15,16 +15,20 @@ import { ProcessSection } from '@/components/sections/ProcessSection';
 import type { Product } from '@/types';
 
 export const metadata: Metadata = {
-  title: 'LA SOÑADA COFFIE — Café de Especialidad del Líbano, Tolima',
+  title: 'LA SOÑADA COFFIE — Café de Especialidad | Finca Los Pinos, Líbano, Tolima',
   description:
-    'Descubre los cafés de especialidad del Líbano, Tolima. Natural Anaeróbico, Honey Process, Washed y Blends artesanales. Tostión en pequeños lotes, entrega directa a tu puerta.',
+    'Café de especialidad de Finca Los Pinos, Vereda La Marcada, Líbano, Tolima, a 1.600 msnm. Procesos Natural, Honey y Lavado. Tostión artesanal en pequeños lotes, entrega directa a tu puerta.',
   keywords: [
     'café especialidad Líbano Tolima',
+    'café Finca Los Pinos Líbano',
+    'café natural Tolima',
+    'honey process Líbano Tolima',
+    'café lavado Colombia',
+    'café 1600 msnm Tolima',
     'café colombiano premium',
-    'café natural anaeróbico',
-    'honey process Colombia',
-    'café de origen',
+    'café de origen único Colombia',
     'La Soñada Coffie',
+    'comprar café especial Tolima',
   ],
   alternates: { canonical: '/' },
   openGraph: {
@@ -62,9 +66,9 @@ export default async function HomePage() {
   const featuredProducts = await getFeaturedProducts();
 
   const stats = [
-    { value: '1', label: 'Origen: Líbano, Tolima' },
-    { value: '100%', label: 'Café colombiano' },
-    { value: '3+', label: 'Procesos artesanales' },
+    { value: '1.600', label: 'msnm · Finca Los Pinos' },
+    { value: '3', label: 'Procesos: Natural · Honey · Lavado' },
+    { value: '100%', label: 'Arábica colombiano' },
     { value: '24h', label: 'Post-tostión a tu puerta' },
   ];
 

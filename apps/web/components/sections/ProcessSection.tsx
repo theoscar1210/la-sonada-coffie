@@ -2,84 +2,123 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Sprout, Sun, Flame, Package, ArrowRight } from 'lucide-react';
+import { ArrowRight, MapPin } from 'lucide-react';
 
-const steps = [
+const processes = [
   {
-    icon: Sprout,
-    number: '01',
-    title: 'Selección en origen',
-    desc: 'Visitamos las fincas personalmente. Escogemos solo los lotes con puntuación Q-Grader superior a 85.',
+    key: 'natural',
+    name: 'Natural',
+    tagline: 'La fruta que define el sabor',
+    description:
+      'El café cherry se seca completo con su pulpa durante 20 a 30 días bajo el sol. La fruta transfiere dulzor y cuerpo directamente al grano. El resultado es una taza frutal, vinosa y de cuerpo pleno.',
+    notes: ['Frutal', 'Vinoso', 'Cuerpo pleno', 'Dulzor intenso'],
+    accent: 'bg-amber-500',
+    border: 'border-amber-500/30',
+    textAccent: 'text-amber-400',
+    bg: 'bg-amber-950/20',
   },
   {
-    icon: Sun,
-    number: '02',
-    title: 'Proceso y secado',
-    desc: 'Supervisamos el procesado: lavado, natural o honey, según las características del lote.',
+    key: 'honey',
+    name: 'Honey',
+    tagline: 'El equilibrio perfecto',
+    description:
+      'Se retira la pulpa pero se conserva el mucílago (miel) sobre el pergamino durante el secado. Este proceso combina la dulzura del natural con la limpieza del lavado, logrando el balance ideal.',
+    notes: ['Caramelizado', 'Balanceado', 'Dulzor suave', 'Cuerpo medio'],
+    accent: 'bg-coffee-500',
+    border: 'border-coffee-500/30',
+    textAccent: 'text-coffee-400',
+    bg: 'bg-coffee-950/20',
   },
   {
-    icon: Flame,
-    number: '03',
-    title: 'Tostión artesanal',
-    desc: 'Tostamos en pequeños lotes con perfil específico para cada café, destacando sus notas únicas.',
-  },
-  {
-    icon: Package,
-    number: '04',
-    title: 'Fresco a tu puerta',
-    desc: 'Empacamos el mismo día de la tostión con válvula desgasificadora para máxima frescura.',
+    key: 'lavado',
+    name: 'Lavado',
+    tagline: 'El terroir en su estado más puro',
+    description:
+      'El grano es completamente despulpado y fermentado en agua antes del secado. Sin residuo de fruta, la taza refleja el terroir de Finca Los Pinos: acidez brillante, limpieza y notas florales propias de los 1.600 msnm.',
+    notes: ['Acidez brillante', 'Floral', 'Limpio', 'Terroir claro'],
+    accent: 'bg-pine-600',
+    border: 'border-pine-600/30',
+    textAccent: 'text-pine-400',
+    bg: 'bg-pine-950/20',
   },
 ];
 
 export function ProcessSection() {
   return (
     <section className="py-24 bg-charcoal-950 relative overflow-hidden">
-      {/* Línea decorativa */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-coffee-700 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+
+        {/* Header */}
+        <div className="text-center mb-6">
           <p className="text-sm font-sans uppercase tracking-widest text-coffee-500 mb-3">
-            Del grano a la taza
+            Finca Los Pinos · Líbano, Tolima · 1.600 msnm
           </p>
           <h2 className="font-serif text-4xl md:text-5xl font-bold text-cream-100">
-            Nuestro proceso
+            Nuestros procesos
           </h2>
         </div>
 
-        {/* Steps */}
-        <div className="grid md:grid-cols-4 gap-8 relative">
-          {/* Línea conectora — desktop */}
-          <div className="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-transparent via-coffee-700 to-transparent" />
+        {/* Origen badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="flex justify-center mb-16"
+        >
+          <span className="inline-flex items-center gap-2 text-coffee-400 text-xs font-sans border border-coffee-700 rounded-full px-5 py-2">
+            <MapPin size={12} />
+            Vereda La Marcada · Líbano, Tolima, Colombia
+          </span>
+        </motion.div>
 
-          {steps.map((step, i) => (
+        {/* Procesos */}
+        <div className="grid md:grid-cols-3 gap-6 mb-14">
+          {processes.map((process, i) => (
             <motion.div
-              key={step.number}
+              key={process.key}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.15 }}
-              className="text-center relative"
+              className={`rounded-2xl border ${process.border} ${process.bg} p-8 relative overflow-hidden group`}
             >
-              {/* Icono */}
-              <div className="relative inline-flex">
-                <div className="w-16 h-16 bg-coffee-900 border border-coffee-700 rounded-2xl flex items-center justify-center mx-auto mb-5">
-                  <step.icon className="text-coffee-400" size={28} />
-                </div>
-                <span className="absolute -top-2 -right-2 w-6 h-6 bg-coffee-600 rounded-full text-cream-100 text-xs font-bold flex items-center justify-center">
-                  {i + 1}
-                </span>
-              </div>
+              {/* Número de fondo */}
+              <span className="absolute -top-4 -right-2 font-serif text-8xl font-bold text-white/5 select-none pointer-events-none">
+                {String(i + 1).padStart(2, '0')}
+              </span>
 
-              <h3 className="font-serif text-lg font-semibold text-cream-100 mb-2">
-                {step.title}
+              {/* Dot de color */}
+              <div className={`w-3 h-3 ${process.accent} rounded-full mb-5`} />
+
+              <h3 className={`font-serif text-3xl font-bold mb-1 ${process.textAccent}`}>
+                {process.name}
               </h3>
-              <p className="text-coffee-500 text-sm leading-relaxed">{step.desc}</p>
+              <p className="text-coffee-500 text-xs font-sans uppercase tracking-widest mb-5">
+                {process.tagline}
+              </p>
+              <p className="text-coffee-400 text-sm leading-relaxed mb-6">
+                {process.description}
+              </p>
+
+              {/* Notas de taza */}
+              <div className="flex flex-wrap gap-2">
+                {process.notes.map((note) => (
+                  <span
+                    key={note}
+                    className="text-xs font-sans px-2.5 py-1 rounded-full bg-charcoal-900/60 text-coffee-400 border border-coffee-800"
+                  >
+                    {note}
+                  </span>
+                ))}
+              </div>
             </motion.div>
           ))}
         </div>
 
-        <div className="text-center mt-14">
+        <div className="text-center">
           <Link
             href="/proceso"
             className="inline-flex items-center gap-2 text-coffee-400 hover:text-coffee-300 transition-colors font-sans"
