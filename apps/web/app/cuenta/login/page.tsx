@@ -24,6 +24,28 @@ const SteamLine = ({ delay, height }: { delay: string; height: string }) => (
   />
 );
 
+const CoffeeCup = () => (
+  <svg
+    viewBox="0 0 110 100"
+    width={110}
+    height={100}
+    fill="none"
+    stroke="white"
+    strokeWidth={1.5}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    opacity={0.22}
+  >
+    <ellipse cx={50} cy={25} rx={35} ry={7} />
+    <line x1={15} y1={25} x2={24} y2={78} />
+    <line x1={85} y1={25} x2={76} y2={78} />
+    <path d="M24,78 Q50,86 76,78" />
+    <path d="M76,38 C104,38 104,64 76,64" />
+    <ellipse cx={50} cy={84} rx={44} ry={7} />
+    <path d="M8,90 Q50,98 92,90" />
+  </svg>
+);
+
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -60,12 +82,13 @@ export default function LoginPage() {
 
         {/* Centro: vapor + headline editorial */}
         <div>
-          <div className="mb-5 flex items-end gap-2">
-            <SteamLine delay="0s" height="32px" />
-            <SteamLine delay="0.5s" height="22px" />
-            <SteamLine delay="1s" height="40px" />
-            <SteamLine delay="0.3s" height="18px" />
+          <div className="mb-2 flex items-end gap-2">
+            <SteamLine delay="0s" height="80px" />
+            <SteamLine delay="0.5s" height="56px" />
+            <SteamLine delay="1s" height="96px" />
+            <SteamLine delay="0.3s" height="48px" />
           </div>
+          <CoffeeCup />
 
           <h1 className="text-coffee-50 font-serif font-bold leading-[0.92]">
             <span className="block text-[80px] xl:text-[96px]">Bien</span>
