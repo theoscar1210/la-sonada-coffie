@@ -19,12 +19,17 @@ import { paymentRoutes } from './routes/payments.js';
 import { userRoutes } from './routes/users.js';
 import { uploadRoutes } from './routes/uploads.js';
 import { errorHandler } from './middleware/errorHandler.js';
+import { csrfProtection } from './middleware/csrf.js';
 
 export async function buildApp() {
   const isProd = process.env['NODE_ENV'] === 'production';
   const app = Fastify({
     logger: isProd
-      ? { level: 'info' }
+      ? {
+          level: 'info',
+          // Redactar campos sensibles en logs de producción
+          redact: ['req.headers.authorization', 'req.body.password', 'req.body.refreshToken'],
+        }
       : { level: 'debug', transport: { target: 'pino-pretty', options: { colorize: true } } },
   });
 
@@ -54,8 +59,9 @@ export async function buildApp() {
   await app.register(cookie);
 
   // ── JWT ─────────────────────────────────────────────────────
+  // Sin fallback: validateEnv() ya garantiza que JWT_SECRET existe en prod
   await app.register(jwt, {
-    secret: process.env['JWT_SECRET'] ?? 'dev-secret-change-in-production',
+    secret: process.env['JWT_SECRET'] ?? 'dev-only-secret-min-32-chars-xxxxxxxxxxx',
     sign: { expiresIn: process.env['JWT_EXPIRES_IN'] ?? '15m' },
     // Leer accessToken desde cookie httpOnly además del header Authorization
     cookie: { cookieName: 'accessToken', signed: false },
@@ -84,6 +90,9 @@ export async function buildApp() {
       uiConfig: { docExpansion: 'list', deepLinking: false },
     });
   }
+
+  // ── CSRF — validar Origin en todas las mutaciones salvo webhooks ──
+  app.addHook('preHandler', csrfProtection);
 
   // ── Health check ─────────────────────────────────────────────
   app.get('/health', { schema: { tags: ['system'] } }, async () => ({

@@ -31,7 +31,9 @@ export const userRoutes: FastifyPluginAsync = async (app) => {
   // GET /users (admin)
   app.get('/', { preHandler: [authenticateAdmin] }, async (request, reply) => {
     const { page = '1', limit = '20' } = request.query as { page?: string; limit?: string };
-    const skip = (Number(page) - 1) * Number(limit);
+    const safePage  = Math.max(1, parseInt(page, 10)  || 1);
+    const safeLimit = Math.min(100, Math.max(1, parseInt(limit, 10) || 20));
+    const skip = (safePage - 1) * safeLimit;
 
     const [total, users] = await Promise.all([
       prisma.user.count(),
@@ -47,13 +49,13 @@ export const userRoutes: FastifyPluginAsync = async (app) => {
         },
         orderBy: { createdAt: 'desc' },
         skip,
-        take: Number(limit),
+        take: safeLimit,
       }),
     ]);
 
     return reply.send({
       success: true,
-      data: { users, pagination: { total, page: Number(page), limit: Number(limit), totalPages: Math.ceil(total / Number(limit)) } },
+      data: { users, pagination: { total, page: safePage, limit: safeLimit, totalPages: Math.ceil(total / safeLimit) } },
       error: null,
     });
   });

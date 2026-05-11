@@ -39,7 +39,13 @@ export const uploadRoutes: FastifyPluginAsync = async (app) => {
       }
 
       const timestamp = Math.round(Date.now() / 1000);
-      const paramsToSign = { timestamp, folder };
+      // Restricciones firmadas: el cliente DEBE enviarlas o Cloudinary rechaza la firma
+      const paramsToSign = {
+        timestamp,
+        folder,
+        allowed_formats: 'jpg,jpeg,png,webp,avif',
+        max_bytes: 5_000_000,   // 5 MB máximo
+      };
 
       const signature = cloudinary.utils.api_sign_request(
         paramsToSign,
@@ -52,6 +58,8 @@ export const uploadRoutes: FastifyPluginAsync = async (app) => {
           signature,
           timestamp,
           folder,
+          allowedFormats: 'jpg,jpeg,png,webp,avif',
+          maxBytes: 5_000_000,
           cloudName: process.env['CLOUDINARY_CLOUD_NAME'],
           apiKey: process.env['CLOUDINARY_API_KEY'],
           // apiSecret NUNCA se expone al cliente

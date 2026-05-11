@@ -30,7 +30,9 @@ export const orderRoutes: FastifyPluginAsync = async (app) => {
   app.get('/', { preHandler: [authenticate] }, async (request, reply) => {
     const user = request.user as JwtPayload;
     const { page = '1', limit = '10' } = request.query as { page?: string; limit?: string };
-    const result = await getOrders(user.sub, user.role, Number(page), Number(limit));
+    const safePage  = Math.max(1, parseInt(page, 10)  || 1);
+    const safeLimit = Math.min(100, Math.max(1, parseInt(limit, 10) || 10));
+    const result = await getOrders(user.sub, user.role, safePage, safeLimit);
     return reply.send({ success: true, data: result, error: null });
   });
 
