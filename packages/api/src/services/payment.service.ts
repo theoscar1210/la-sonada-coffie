@@ -60,12 +60,31 @@ export async function handleStripeWebhook(payload: Buffer, signature: string) {
     case 'payment_intent.succeeded': {
       const pi = event.data.object as Stripe.PaymentIntent;
       const orderId = pi.metadata['orderId'];
-      if (orderId) {
-        await prisma.order.update({
-          where: { id: orderId },
-          data: { status: 'CONFIRMED', paidAt: new Date() },
-        });
+      if (!orderId) break;
+
+      const order = await prisma.order.findUnique({
+        where: { id: orderId },
+        select: { id: true, total: true, status: true },
+      });
+
+      // Si la orden no existe o ya fue procesada, ignorar silenciosamente
+      if (!order || order.status !== 'PENDING') break;
+
+      // Validar que Stripe cobró exactamente lo que se le pidió cobrar
+      const expectedCentavos = Math.round(Number(order.total) * 100);
+      if (pi.amount !== expectedCentavos) {
+        // Retornar 400 hace que Stripe reintente el webhook y queda en logs
+        const mismatchError = new Error(
+          `Monto inválido: esperado ${expectedCentavos} centavos, recibido ${pi.amount}`,
+        ) as Error & { statusCode: number };
+        mismatchError.statusCode = 400;
+        throw mismatchError;
       }
+
+      await prisma.order.update({
+        where: { id: orderId },
+        data: { status: 'CONFIRMED', paidAt: new Date() },
+      });
       break;
     }
     case 'payment_intent.payment_failed': {

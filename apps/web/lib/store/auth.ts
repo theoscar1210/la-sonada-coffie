@@ -1,5 +1,7 @@
 /**
  * Store de autenticación con Zustand
+ * Los tokens JWT se gestionan en el servidor via cookies httpOnly.
+ * Aquí solo persiste el estado de UI: usuario y sesión activa.
  */
 
 import { create } from 'zustand';
@@ -20,22 +22,19 @@ interface AuthStore {
 
 export const useAuthStore = create<AuthStore>()(
   persist(
-    (set, _get) => ({
+    (set) => ({
       user: null,
       isAuthenticated: false,
       isLoading: false,
 
       login: async (email, password) => {
         set({ isLoading: true });
-        const res = await api.post<{ accessToken: string; refreshToken: string; user: User }>(
-          '/auth/login',
-          { email, password },
-        );
+        // El servidor setea las cookies httpOnly — la respuesta solo trae el usuario
+        const res = await api.post<{ user: User }>('/auth/login', { email, password });
         if (!res.success || !res.data) {
           set({ isLoading: false });
           throw new Error(res.error?.message ?? 'Error al iniciar sesión');
         }
-        api.saveTokens(res.data.accessToken, res.data.refreshToken);
         set({ user: res.data.user, isAuthenticated: true, isLoading: false });
       },
 
@@ -50,11 +49,8 @@ export const useAuthStore = create<AuthStore>()(
       },
 
       logout: async () => {
-        const refreshToken = localStorage.getItem('refreshToken');
-        if (refreshToken) {
-          await api.post('/auth/logout', { refreshToken }).catch(() => null);
-        }
-        api.clearTokens();
+        // El servidor invalida el refreshToken en BD y limpia ambas cookies
+        await api.post('/auth/logout', {}).catch(() => null);
         set({ user: null, isAuthenticated: false });
       },
 
@@ -68,6 +64,7 @@ export const useAuthStore = create<AuthStore>()(
     {
       name: 'la-sonada-auth',
       storage: createJSONStorage(() => localStorage),
+      // Solo persiste estado de UI — nunca tokens
       partialize: (state) => ({ user: state.user, isAuthenticated: state.isAuthenticated }),
     },
   ),

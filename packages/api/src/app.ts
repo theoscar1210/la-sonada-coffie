@@ -5,6 +5,7 @@
 
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
+import cookie from '@fastify/cookie';
 import helmet from '@fastify/helmet';
 import jwt from '@fastify/jwt';
 import rateLimit from '@fastify/rate-limit';
@@ -43,10 +44,15 @@ export async function buildApp() {
     timeWindow: '1 minute',
   });
 
+  // ── Cookies (debe registrarse ANTES de JWT) ──────────────────
+  await app.register(cookie);
+
   // ── JWT ─────────────────────────────────────────────────────
   await app.register(jwt, {
     secret: process.env['JWT_SECRET'] ?? 'dev-secret-change-in-production',
     sign: { expiresIn: process.env['JWT_EXPIRES_IN'] ?? '15m' },
+    // Leer accessToken desde cookie httpOnly además del header Authorization
+    cookie: { cookieName: 'accessToken', signed: false },
   });
 
   // ── Swagger Docs ─────────────────────────────────────────────

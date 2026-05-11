@@ -1,6 +1,7 @@
 /**
  * Cliente HTTP para la API de LA SOÑADA COFFIE
- * Maneja tokens JWT, refresh automático y formato estándar de respuesta
+ * Los tokens JWT viajan en cookies httpOnly gestionadas por el servidor.
+ * credentials: 'include' hace que el navegador las envíe automáticamente.
  */
 
 import type { ApiResponse } from '@/types';
@@ -22,40 +23,14 @@ class ApiClient {
     this.baseUrl = baseUrl;
   }
 
-  private getAccessToken(): string | null {
-    if (typeof window === 'undefined') return null;
-    return localStorage.getItem('accessToken');
-  }
-
-  private setTokens(accessToken: string, refreshToken?: string) {
-    localStorage.setItem('accessToken', accessToken);
-    if (refreshToken) localStorage.setItem('refreshToken', refreshToken);
-  }
-
-  clearTokens() {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-  }
-
   private async refreshToken(): Promise<boolean> {
-    const refreshToken = localStorage.getItem('refreshToken');
-    if (!refreshToken) return false;
-
     try {
+      // El navegador envía la cookie refreshToken automáticamente
       const res = await fetch(`${this.baseUrl}/auth/refresh`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ refreshToken }),
+        credentials: 'include',
       });
-
-      if (!res.ok) return false;
-
-      const data = (await res.json()) as ApiResponse<{ accessToken: string }>;
-      if (data.success && data.data) {
-        this.setTokens(data.data.accessToken);
-        return true;
-      }
-      return false;
+      return res.ok;
     } catch {
       return false;
     }
@@ -63,13 +38,12 @@ class ApiClient {
 
   async request<T>(endpoint: string, options: RequestOptions = {}): Promise<ApiResponse<T>> {
     const { method = 'GET', body, headers = {}, cache, next } = options;
-    const accessToken = this.getAccessToken();
 
     const fetchOptions: RequestInit = {
       method,
+      credentials: 'include', // envía cookies httpOnly automáticamente
       headers: {
         'Content-Type': 'application/json',
-        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
         ...headers,
       },
       ...(body ? { body: JSON.stringify(body) } : {}),
@@ -79,17 +53,11 @@ class ApiClient {
 
     let res = await fetch(`${this.baseUrl}${endpoint}`, fetchOptions);
 
-    // Intentar refresh si 401
-    if (res.status === 401 && accessToken) {
+    // Intentar refresh automático si el accessToken expiró
+    if (res.status === 401) {
       const refreshed = await this.refreshToken();
       if (refreshed) {
-        const newToken = this.getAccessToken();
-        if (newToken) {
-          fetchOptions.headers = {
-            ...(fetchOptions.headers as Record<string, string>),
-            Authorization: `Bearer ${newToken}`,
-          };
-        }
+        // El servidor ya seteó la nueva cookie — reintentar con la misma config
         res = await fetch(`${this.baseUrl}${endpoint}`, fetchOptions);
       }
     }
@@ -98,7 +66,6 @@ class ApiClient {
     return data;
   }
 
-  // Métodos de conveniencia
   get<T>(endpoint: string, opts?: Omit<RequestOptions, 'method' | 'body'>) {
     return this.request<T>(endpoint, { ...opts, method: 'GET' });
   }
@@ -117,10 +84,6 @@ class ApiClient {
 
   delete<T>(endpoint: string, opts?: Omit<RequestOptions, 'method' | 'body'>) {
     return this.request<T>(endpoint, { ...opts, method: 'DELETE' });
-  }
-
-  saveTokens(accessToken: string, refreshToken: string) {
-    this.setTokens(accessToken, refreshToken);
   }
 }
 
