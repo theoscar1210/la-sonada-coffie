@@ -212,12 +212,14 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* Credenciales de prueba */}
-          <div className="mt-4 text-center">
-            <p className="text-coffee-900 font-mono text-[10px]">
-              prueba · cliente@ejemplo.co / Cliente123!
-            </p>
-          </div>
+          {/* Credenciales de prueba — solo visibles en desarrollo local */}
+          {process.env.NODE_ENV === 'development' && (
+            <div className="mt-4 text-center">
+              <p className="text-coffee-900 font-mono text-[10px]">
+                prueba · cliente@ejemplo.co / Cliente123!
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

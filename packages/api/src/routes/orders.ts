@@ -18,8 +18,8 @@ import { authenticate, authenticateAdmin } from '../middleware/authenticate.js';
 import type { JwtPayload } from '../middleware/authenticate.js';
 
 export const orderRoutes: FastifyPluginAsync = async (app) => {
-  // POST /orders
-  app.post('/', { preHandler: [authenticate] }, async (request, reply) => {
+  // POST /orders — 10 órdenes por minuto: limita spam de checkout
+  app.post('/', { preHandler: [authenticate], config: { rateLimit: { max: 10, timeWindow: '1 minute' } } }, async (request, reply) => {
     const user = request.user as JwtPayload;
     const input = createOrderSchema.parse(request.body);
     const order = await createOrder(user.sub, input);

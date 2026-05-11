@@ -29,15 +29,15 @@ function cookieOptions(isProd: boolean, maxAge: number) {
 export const authRoutes: FastifyPluginAsync = async (app) => {
   const isProd = process.env['NODE_ENV'] === 'production';
 
-  // POST /auth/register
-  app.post('/register', async (request, reply) => {
+  // POST /auth/register — 5 intentos por minuto para frenar creación masiva de cuentas
+  app.post('/register', { config: { rateLimit: { max: 5, timeWindow: '1 minute' } } }, async (request, reply) => {
     const input = registerSchema.parse(request.body);
     const user = await registerUser(input);
     return reply.status(201).send({ success: true, data: user, error: null });
   });
 
-  // POST /auth/login — setea accessToken y refreshToken como cookies httpOnly
-  app.post('/login', async (request, reply) => {
+  // POST /auth/login — 5 intentos por minuto para frenar brute force
+  app.post('/login', { config: { rateLimit: { max: 5, timeWindow: '1 minute' } } }, async (request, reply) => {
     const input = loginSchema.parse(request.body);
     const result = await loginUser(input, app);
 
@@ -48,8 +48,8 @@ export const authRoutes: FastifyPluginAsync = async (app) => {
     return reply.send({ success: true, data: { user: result.user }, error: null });
   });
 
-  // POST /auth/refresh — lee refreshToken de cookie, rota el accessToken
-  app.post('/refresh', async (request, reply) => {
+  // POST /auth/refresh — 10 rotaciones por minuto; más permisivo que login pero acotado
+  app.post('/refresh', { config: { rateLimit: { max: 10, timeWindow: '1 minute' } } }, async (request, reply) => {
     const refreshToken = request.cookies['refreshToken'];
     if (!refreshToken) {
       return reply.status(401).send({

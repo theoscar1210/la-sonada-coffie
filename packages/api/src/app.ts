@@ -17,6 +17,7 @@ import { productRoutes } from './routes/products.js';
 import { orderRoutes } from './routes/orders.js';
 import { paymentRoutes } from './routes/payments.js';
 import { userRoutes } from './routes/users.js';
+import { uploadRoutes } from './routes/uploads.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 export async function buildApp() {
@@ -28,7 +29,12 @@ export async function buildApp() {
   });
 
   // ── Seguridad ────────────────────────────────────────────────
-  await app.register(helmet, { contentSecurityPolicy: false });
+  // API JSON pura: no sirve HTML, defaultSrc 'none' es correcto
+  await app.register(helmet, {
+    contentSecurityPolicy: {
+      directives: { defaultSrc: ["'none'"] },
+    },
+  });
 
   await app.register(cors, {
     origin: [
@@ -55,27 +61,29 @@ export async function buildApp() {
     cookie: { cookieName: 'accessToken', signed: false },
   });
 
-  // ── Swagger Docs ─────────────────────────────────────────────
-  await app.register(swagger, {
-    openapi: {
-      info: {
-        title: 'LA SOÑADA COFFIE API',
-        description: 'REST API para e-commerce de café premium',
-        version: '1.0.0',
-      },
-      servers: [{ url: `http://localhost:${process.env['PORT'] ?? 3001}` }],
-      components: {
-        securitySchemes: {
-          bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+  // ── Swagger Docs (solo en desarrollo) ───────────────────────
+  if (!isProd) {
+    await app.register(swagger, {
+      openapi: {
+        info: {
+          title: 'LA SOÑADA COFFIE API',
+          description: 'REST API para e-commerce de café premium',
+          version: '1.0.0',
+        },
+        servers: [{ url: `http://localhost:${process.env['PORT'] ?? 3001}` }],
+        components: {
+          securitySchemes: {
+            bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+          },
         },
       },
-    },
-  });
+    });
 
-  await app.register(swaggerUi, {
-    routePrefix: '/docs',
-    uiConfig: { docExpansion: 'list', deepLinking: false },
-  });
+    await app.register(swaggerUi, {
+      routePrefix: '/docs',
+      uiConfig: { docExpansion: 'list', deepLinking: false },
+    });
+  }
 
   // ── Health check ─────────────────────────────────────────────
   app.get('/health', { schema: { tags: ['system'] } }, async () => ({
@@ -89,6 +97,7 @@ export async function buildApp() {
   await app.register(orderRoutes, { prefix: '/orders' });
   await app.register(paymentRoutes, { prefix: '/payments' });
   await app.register(userRoutes, { prefix: '/users' });
+  await app.register(uploadRoutes, { prefix: '/uploads' });
 
   // ── Error handler global ──────────────────────────────────────
   app.setErrorHandler(errorHandler as Parameters<typeof app.setErrorHandler>[0]);

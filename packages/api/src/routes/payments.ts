@@ -12,8 +12,8 @@ import type { JwtPayload } from '../middleware/authenticate.js';
 type RequestWithRawBody = FastifyRequest & { rawBody: Buffer };
 
 export const paymentRoutes: FastifyPluginAsync = async (app) => {
-  // POST /payments/create-intent
-  app.post('/create-intent', { preHandler: [authenticate] }, async (request, reply) => {
+  // POST /payments/create-intent — 10 intentos por minuto para frenar checkout spam
+  app.post('/create-intent', { preHandler: [authenticate], config: { rateLimit: { max: 10, timeWindow: '1 minute' } } }, async (request, reply) => {
     const user = request.user as JwtPayload;
     const { orderId } = request.body as { orderId: string };
 

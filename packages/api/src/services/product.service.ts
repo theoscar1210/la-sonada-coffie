@@ -3,8 +3,14 @@
  * Lógica de negocio para CRUD de productos
  */
 
+import sanitizeHtml from 'sanitize-html';
 import { prisma } from '@la-sonada/database';
 import type { ProductQuery, CreateProductInput, UpdateProductInput } from '../schemas/product.schema.js';
+
+// Las descripciones se almacenan como texto plano — sin HTML
+function stripHtml(text: string): string {
+  return sanitizeHtml(text, { allowedTags: [], allowedAttributes: {} }).trim();
+}
 
 export async function getProducts(query: ProductQuery) {
   const { page, limit, category, origin, roastLevel, minPrice, maxPrice, featured, search } =
@@ -79,6 +85,7 @@ export async function createProduct(data: CreateProductInput) {
   return prisma.product.create({
     data: {
       ...data,
+      description: stripHtml(data.description),
       price: data.price,
       comparePrice: data.comparePrice ?? null,
       region: data.region ?? null,
@@ -100,6 +107,9 @@ export async function updateProduct(id: string, data: UpdateProductInput) {
   const cleanData = Object.fromEntries(
     Object.entries(data).filter(([, v]) => v !== undefined),
   );
+  if (typeof cleanData['description'] === 'string') {
+    cleanData['description'] = stripHtml(cleanData['description'] as string);
+  }
   return prisma.product.update({ where: { id }, data: cleanData });
 }
 
