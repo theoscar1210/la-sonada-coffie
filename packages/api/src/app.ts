@@ -19,14 +19,11 @@ import { userRoutes } from './routes/users.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 export async function buildApp() {
+  const isProd = process.env['NODE_ENV'] === 'production';
   const app = Fastify({
-    logger: {
-      level: process.env['NODE_ENV'] === 'production' ? 'info' : 'debug',
-      transport:
-        process.env['NODE_ENV'] !== 'production'
-          ? { target: 'pino-pretty', options: { colorize: true } }
-          : undefined,
-    },
+    logger: isProd
+      ? { level: 'info' }
+      : { level: 'debug', transport: { target: 'pino-pretty', options: { colorize: true } } },
   });
 
   // ── Seguridad ────────────────────────────────────────────────
@@ -71,7 +68,7 @@ export async function buildApp() {
 
   await app.register(swaggerUi, {
     routePrefix: '/docs',
-    uiConfig: { docExpansion: 'tag', deepLinking: false },
+    uiConfig: { docExpansion: 'list', deepLinking: false },
   });
 
   // ── Health check ─────────────────────────────────────────────
@@ -88,7 +85,7 @@ export async function buildApp() {
   await app.register(userRoutes, { prefix: '/users' });
 
   // ── Error handler global ──────────────────────────────────────
-  app.setErrorHandler(errorHandler);
+  app.setErrorHandler(errorHandler as Parameters<typeof app.setErrorHandler>[0]);
 
   return app;
 }

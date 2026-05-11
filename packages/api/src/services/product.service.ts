@@ -80,7 +80,10 @@ export async function createProduct(data: CreateProductInput) {
     data: {
       ...data,
       price: data.price,
-      comparePrice: data.comparePrice,
+      comparePrice: data.comparePrice ?? null,
+      region: data.region ?? null,
+      altitude: data.altitude ?? null,
+      process: data.process ?? null,
     },
     include: { category: { select: { id: true, name: true, slug: true } } },
   });
@@ -94,7 +97,10 @@ export async function updateProduct(id: string, data: UpdateProductInput) {
     throw error;
   }
 
-  return prisma.product.update({ where: { id }, data });
+  const cleanData = Object.fromEntries(
+    Object.entries(data).filter(([, v]) => v !== undefined),
+  );
+  return prisma.product.update({ where: { id }, data: cleanData });
 }
 
 export async function deleteProduct(id: string) {

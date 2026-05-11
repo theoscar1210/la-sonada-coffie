@@ -51,7 +51,7 @@ export async function createOrder(userId: string, input: CreateOrderInput) {
 
   // Verificar stock y calcular subtotal
   let subtotal = 0;
-  const orderItems = input.items.map((item) => {
+  const orderItems: Prisma.OrderItemUncheckedCreateWithoutOrderInput[] = input.items.map((item) => {
     const product = products.find((p: ProductRow) => p.id === item.productId);
     if (!product) throw new Error('Producto no encontrado');
     if (product.stock < item.quantity) {
@@ -66,7 +66,7 @@ export async function createOrder(userId: string, input: CreateOrderInput) {
     return {
       productId: item.productId,
       quantity: item.quantity,
-      grind: item.grind,
+      ...(item.grind !== undefined && { grind: item.grind }),
       unitPrice: Number(product.price),
       subtotal: itemSubtotal,
     };
@@ -122,9 +122,6 @@ export async function createOrder(userId: string, input: CreateOrderInput) {
     throw error;
   }
 
-  // Tipo del item de orden para el map dentro de la transacción
-  type OrderItemRow = (typeof orderItems)[number];
-
   // Crear orden en transacción (orderNumber se genera aquí para evitar race conditions)
   const order = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
     const orderNumber = await generateOrderNumber(tx);
@@ -137,7 +134,7 @@ export async function createOrder(userId: string, input: CreateOrderInput) {
         shippingCost,
         discount: 0,
         total,
-        notes: input.notes,
+        notes: input.notes ?? null,
         ...shippingData,
         items: { create: orderItems },
       },
@@ -148,7 +145,7 @@ export async function createOrder(userId: string, input: CreateOrderInput) {
 
     // Decrementar stock
     await Promise.all(
-      orderItems.map((item: OrderItemRow) =>
+      orderItems.map((item) =>
         tx.product.update({
           where: { id: item.productId },
           data: { stock: { decrement: item.quantity } },

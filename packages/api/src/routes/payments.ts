@@ -4,10 +4,12 @@
  * POST /payments/webhook       — Webhook de Stripe
  */
 
-import type { FastifyPluginAsync } from 'fastify';
+import type { FastifyPluginAsync, FastifyRequest } from 'fastify';
 import { createPaymentIntent, handleStripeWebhook } from '../services/payment.service.js';
 import { authenticate } from '../middleware/authenticate.js';
 import type { JwtPayload } from '../middleware/authenticate.js';
+
+type RequestWithRawBody = FastifyRequest & { rawBody: Buffer };
 
 export const paymentRoutes: FastifyPluginAsync = async (app) => {
   // POST /payments/create-intent
@@ -40,7 +42,7 @@ export const paymentRoutes: FastifyPluginAsync = async (app) => {
         return reply.status(400).send({ success: false, data: null, error: { code: 'MISSING_SIGNATURE', message: 'Firma Stripe faltante' } });
       }
 
-      const result = await handleStripeWebhook(request.rawBody as Buffer, signature);
+      const result = await handleStripeWebhook((request as RequestWithRawBody).rawBody, signature);
       return reply.send({ success: true, data: result, error: null });
     },
   );

@@ -90,9 +90,12 @@ export const userRoutes: FastifyPluginAsync = async (app) => {
     }
 
     const input = updateUserSchema.parse(request.body);
+    const data = Object.fromEntries(
+      Object.entries(input).filter(([, v]) => v !== undefined),
+    );
     const user = await prisma.user.update({
       where: { id },
-      data: input,
+      data,
       select: { id: true, email: true, name: true, role: true },
     });
 
