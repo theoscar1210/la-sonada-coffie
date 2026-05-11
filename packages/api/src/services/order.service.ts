@@ -10,10 +10,25 @@ import type { CreateOrderInput, UpdateOrderStatusInput } from '../schemas/order.
 const SHIPPING_COST = 8000; // COP
 const FREE_SHIPPING_THRESHOLD = 100000; // COP
 
-/** Genera número de orden incremental tipo LSC-0001 */
-async function generateOrderNumber(): Promise<string> {
-  const count = await prisma.order.count();
-  return `LSC-${String(count + 1).padStart(4, '0')}`;
+const VALID_TRANSITIONS: Record<string, string[]> = {
+  PENDING:    ['CONFIRMED', 'CANCELLED'],
+  CONFIRMED:  ['PROCESSING', 'CANCELLED'],
+  PROCESSING: ['SHIPPED', 'CANCELLED'],
+  SHIPPED:    ['DELIVERED'],
+  DELIVERED:  [],
+  CANCELLED:  [],
+  REFUNDED:   [],
+};
+
+/** Genera número de orden incremental dentro de una transacción para evitar race conditions */
+async function generateOrderNumber(tx: Prisma.TransactionClient): Promise<string> {
+  const last = await tx.order.findFirst({
+    orderBy: { createdAt: 'desc' },
+    select: { orderNumber: true },
+  });
+  if (!last) return 'LSC-0001';
+  const lastNum = parseInt(last.orderNumber.replace('LSC-', ''), 10);
+  return `LSC-${String(lastNum + 1).padStart(4, '0')}`;
 }
 
 /** Tipo de los items que retorna prisma.product.findMany */
@@ -59,7 +74,6 @@ export async function createOrder(userId: string, input: CreateOrderInput) {
 
   const shippingCost = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
   const total = subtotal + shippingCost;
-  const orderNumber = await generateOrderNumber();
 
   // Resolver dirección de envío
   type ShippingData = {
@@ -111,8 +125,9 @@ export async function createOrder(userId: string, input: CreateOrderInput) {
   // Tipo del item de orden para el map dentro de la transacción
   type OrderItemRow = (typeof orderItems)[number];
 
-  // Crear orden en transacción
+  // Crear orden en transacción (orderNumber se genera aquí para evitar race conditions)
   const order = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+    const orderNumber = await generateOrderNumber(tx);
     const newOrder = await tx.order.create({
       data: {
         orderNumber,
@@ -193,5 +208,28 @@ export async function updateOrderStatus(id: string, input: UpdateOrderStatusInpu
     error.statusCode = 404;
     throw error;
   }
+
+  const allowed = VALID_TRANSITIONS[order.status] ?? [];
+  if (!allowed.includes(input.status)) {
+    const error = new Error(
+      `No se puede cambiar de ${order.status} a ${input.status}`,
+    ) as Error & { statusCode: number };
+    error.statusCode = 400;
+    throw error;
+  }
+
   return prisma.order.update({ where: { id }, data: { status: input.status } });
+}
+
+/** Restaura el stock de todos los items de una orden — usar cuando se cancela */
+export async function restoreOrderStock(orderId: string) {
+  const items = await prisma.orderItem.findMany({ where: { orderId } });
+  await Promise.all(
+    items.map((item) =>
+      prisma.product.update({
+        where: { id: item.productId },
+        data: { stock: { increment: item.quantity } },
+      }),
+    ),
+  );
 }

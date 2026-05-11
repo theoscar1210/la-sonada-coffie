@@ -4,6 +4,7 @@
 
 import Stripe from 'stripe';
 import { prisma } from '@la-sonada/database';
+import { restoreOrderStock } from './order.service.js';
 
 const stripe = new Stripe(process.env['STRIPE_SECRET_KEY'] ?? '', {
   apiVersion: '2024-04-10',
@@ -75,6 +76,7 @@ export async function handleStripeWebhook(payload: Buffer, signature: string) {
           where: { id: orderId },
           data: { status: 'CANCELLED' },
         });
+        await restoreOrderStock(orderId);
       }
       break;
     }
